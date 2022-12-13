@@ -4,11 +4,7 @@ export class Binary2Decimal {
   constructor(private binaryString: string) {}
 
   checkIfIsBinary(): boolean {
-    for (const char of this.binaryString) {
-      if (Number(char) !== 1 && Number(char) !== 0 && char !== ',')
-        return false;
-    }
-    return true;
+    return this.binaryString.split('').every((char) => Number(char) === 0 || Number(char) === 1 || char === ',')
   }
 
   validate(): void {
