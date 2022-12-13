@@ -1,3 +1,4 @@
 import { Binary2Decimal } from "./Binary2Decimal";
 
-console.log(Binary2Decimal.run('1011'))
+const binary2decimal = new Binary2Decimal("0110")
+console.log(binary2decimal.run())

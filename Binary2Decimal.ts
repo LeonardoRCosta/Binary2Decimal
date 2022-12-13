@@ -1,17 +1,52 @@
 export class Binary2Decimal {
-  static run(binary: string) {
-    const algorisms: number[] = [];
-    for (let algorism of binary) {
-      algorisms.push(Number(algorism));
+  private algorisms: number[] = [];
+  private decimalPlaces: number = -1;
+  constructor(private binaryString: string) {}
+
+  checkIfIsBinary(): boolean {
+    for (const char of this.binaryString) {
+      if (Number(char) !== 1 && Number(char) !== 0 && char !== ',')
+        return false;
     }
-    console.log(algorisms);
-    let idx = 1
-    const decimal = algorisms.reduceRight((acc, alg) => {
-      console.log(acc);
-      acc += alg * (2 ** idx);
+    return true;
+  }
+
+  validate(): void {
+    try {
+      const isBinary = this.checkIfIsBinary();
+      if (!isBinary) throw new Error('Invalid binary!');
+    } catch (error: any) {
+      throw error;
+    }
+  }
+
+  pushAlgorismsIntoArray() {
+    for (const algorism of this.binaryString) {
+      const isNotComma = algorism !== ',';
+      const isNotDot = algorism !== '.';
+      if (isNotComma && isNotDot) this.algorisms.push(Number(algorism));
+    }
+  }
+
+  countDecimalPlaces() {
+    const indexOfComma = this.binaryString.indexOf(',');
+    const strDecimalPlaces = this.binaryString.slice(indexOfComma);
+    for (const place of strDecimalPlaces) {
+      this.decimalPlaces++;
+    }
+  }
+
+  run() {
+    this.binaryString = this.binaryString.replace('.', ',');
+    this.validate();
+    this.countDecimalPlaces();
+    this.pushAlgorismsIntoArray();
+    let idx = -this.decimalPlaces;
+    const decimal = this.algorisms.reduceRight((decimal, alg) => {
+      decimal += alg * 2 ** idx;
       idx += 1;
-      return acc;
-    });
+      return decimal;
+    }, 0);
     return decimal;
   }
 }
