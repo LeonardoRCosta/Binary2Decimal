@@ -1,6 +1,5 @@
 import { Binary2Decimal } from './Binary2Decimal';
 
-jest.mock('./Binary2Decimal.ts');
 
 describe('Binary2Decimal', () => {
   afterEach(() => jest.clearAllMocks());
@@ -73,5 +72,31 @@ describe('Binary2Decimal', () => {
       .spyOn(binary2decimal, 'run')
       .mockImplementationOnce(() => 6);
     expect(binary2decimal.run()).toBe(6);
+  });
+
+  it('should parse and push the algorism into the array, only if it is not a comma', () => {
+    const mockAlgorismsArray: number[] = []
+    const exampleBinaryString: string = '0110,002'
+    const mockPushMethod = jest.fn().mockImplementation(() => {
+      for (const char of exampleBinaryString) {
+        const isNotComma = char !== ','
+        if (isNotComma) mockAlgorismsArray.push(Number(char))
+      }
+      console.log(mockAlgorismsArray)
+    })
+    mockPushMethod();
+    expect(mockAlgorismsArray.length).toBe(7)
+  })
+
+  it('should change the decimalPlaces property to 0 if the binary does not have decimal places', () => {
+    const binary2decimal = new Binary2Decimal('0110');
+    binary2decimal.countDecimalPlaces();
+    expect(binary2decimal.getDecimalPlaces).toBe(0);
+  });
+
+  it('should change the decimalPlaces property to the number of the decimal places present in the binary number', () => {
+    const binary2decimal = new Binary2Decimal('0110,112');
+    binary2decimal.countDecimalPlaces();
+    expect(binary2decimal.getDecimalPlaces).toBe(3);
   });
 });
