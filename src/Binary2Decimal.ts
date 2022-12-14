@@ -12,6 +12,17 @@ export class Binary2Decimal {
   private decimalPlaces: number = 0;
   constructor(private binaryString: string) {}
 
+  get getAlgorisms(): number[] {
+    return this.algorisms;
+  }
+
+  get getDecimalPlaces(): number {
+    return this.decimalPlaces;
+  }
+
+  get getBinaryString(): string {
+    return this.binaryString;
+  }
   /**
    * A method that checks if the string has a comma
    * @returns True if the binaryString includes a comma and false otherwise
