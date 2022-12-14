@@ -67,8 +67,7 @@ export class Binary2Decimal {
   pushAlgorismsIntoArray(): void {
     for (const algorism of this.binaryString) {
       const isNotComma = algorism !== ',';
-      const isNotDot = algorism !== '.';
-      if (isNotComma && isNotDot) this.algorisms.push(Number(algorism));
+      if (isNotComma) this.algorisms.push(Number(algorism));
     }
   }
 
