@@ -31,6 +31,10 @@ export class Binary2Decimal {
     return this.binaryString.includes(',');
   }
 
+  getCommaIndex(): number {
+    return this.binaryString.indexOf(',');
+  }
+
   /**
    * A method that checks if the string represents a valid binary number
    * @returns True if the string represents a valid binary and false otherwise
@@ -76,17 +80,14 @@ export class Binary2Decimal {
    * @returns void
    */
   countDecimalPlaces(): void {
-    const hasComma = this.checkIfHasComma();
-    if (!hasComma) {
-      this.decimalPlaces = 0;
-      return;
+    const commaIndex = this.getCommaIndex();
+    if (commaIndex !== -1) {
+      const decimalPlacesChars = this.binaryString
+        .slice(commaIndex)
+        .replace(',', '')
+        .split('');
+      this.decimalPlaces = decimalPlacesChars.length;
     }
-    const indexOfComma = this.binaryString.indexOf(',');
-    const decimalPlacesChars = this.binaryString
-      .slice(indexOfComma)
-      .replace(',', '')
-      .split('');
-    this.decimalPlaces = decimalPlacesChars.length;
   }
 
   /**
