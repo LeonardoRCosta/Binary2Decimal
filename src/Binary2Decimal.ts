@@ -23,14 +23,11 @@ export class Binary2Decimal {
   get getBinaryString(): string {
     return this.binaryString;
   }
-  /**
-   * A method that checks if the string has a comma
-   * @returns True if the binaryString includes a comma and false otherwise
-   */
-  checkIfHasComma(): boolean {
-    return this.binaryString.includes(',');
-  }
 
+  /**
+   * A method that returns the comma index or -1 if the string does not have a comma
+   * @returns commaIndex or -1 if the string has no comma
+   */
   getCommaIndex(): number {
     return this.binaryString.indexOf(',');
   }
@@ -41,6 +38,14 @@ export class Binary2Decimal {
    */
   checkIfIsBinary(): boolean {
     const binaryChars = ['0', '1', ','];
+
+    const firstCommaIndex = this.getCommaIndex();
+
+    const lastCommaIndex = this.binaryString.lastIndexOf(',');
+
+    if (firstCommaIndex !== lastCommaIndex || firstCommaIndex === 0)
+      return false;
+
     return this.binaryString
       .split('')
       .every((char) => binaryChars.includes(char));
