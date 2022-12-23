@@ -9,7 +9,9 @@
  */
 export class Binary2Decimal {
   private algorisms: number[] = [];
+
   private decimalPlaces: number = 0;
+
   constructor(private binaryString: string) {}
 
   get getAlgorisms(): number[] {
@@ -74,6 +76,7 @@ export class Binary2Decimal {
   pushAlgorismsIntoArray(): void {
     for (const algorism of this.binaryString) {
       const isNotComma = algorism !== ',';
+
       if (isNotComma) this.algorisms.push(Number(algorism));
     }
   }
@@ -84,11 +87,13 @@ export class Binary2Decimal {
    */
   countDecimalPlaces(): void {
     const commaIndex = this.getCommaIndex();
+
     if (commaIndex !== -1) {
       const decimalPlacesChars = this.binaryString
         .slice(commaIndex)
         .replace(',', '')
         .split('');
+
       this.decimalPlaces = decimalPlacesChars.length;
     }
   }
@@ -100,15 +105,21 @@ export class Binary2Decimal {
   run() {
     try {
       this.binaryString = this.binaryString.replace('.', ',');
+
       this.validate();
+
       this.countDecimalPlaces();
+
       this.pushAlgorismsIntoArray();
+
       let idx = -this.decimalPlaces;
+
       const decimal = this.algorisms.reduceRight((decimal, alg) => {
         decimal += alg * 2 ** idx;
         idx++;
         return decimal;
       }, 0);
+
       return decimal;
     } catch (error: any) {
       return error.message;
