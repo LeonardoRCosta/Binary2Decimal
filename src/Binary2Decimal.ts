@@ -57,16 +57,14 @@ export class Binary2Decimal {
    * @throws Error 'Invalid binary! The string must have at least one algorism.' if the string is empy and Error 'Invalid binary!' if the string does not represents a valid binary number
    */
   validate(): void {
-    try {
-      if (this.binaryString.length <= 0)
-        throw new Error(
-          'Invalid binary! The string must have at least one algorism.'
-        );
-      const isBinary = this.checkIfIsBinary();
-      if (!isBinary) throw new Error('Invalid binary!');
-    } catch (error: any) {
-      throw error;
-    }
+    if (this.binaryString.length <= 0)
+      throw new Error(
+        'Invalid binary! The string must have at least one algorism.'
+      );
+
+    const isBinary = this.checkIfIsBinary();
+
+    if (!isBinary) throw new Error('Invalid binary!');
   }
 
   /**
@@ -100,16 +98,20 @@ export class Binary2Decimal {
    * @returns decimal: The result of the conversion of the binary number to a decimal
    */
   run() {
-    this.binaryString = this.binaryString.replace('.', ',');
-    this.validate();
-    this.countDecimalPlaces();
-    this.pushAlgorismsIntoArray();
-    let idx = -this.decimalPlaces;
-    const decimal = this.algorisms.reduceRight((decimal, alg) => {
-      decimal += alg * 2 ** idx;
-      idx++;
+    try {
+      this.binaryString = this.binaryString.replace('.', ',');
+      this.validate();
+      this.countDecimalPlaces();
+      this.pushAlgorismsIntoArray();
+      let idx = -this.decimalPlaces;
+      const decimal = this.algorisms.reduceRight((decimal, alg) => {
+        decimal += alg * 2 ** idx;
+        idx++;
+        return decimal;
+      }, 0);
       return decimal;
-    }, 0);
-    return decimal;
+    } catch (error: any) {
+      return error.message;
+    }
   }
 }
